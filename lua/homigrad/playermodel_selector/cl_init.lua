@@ -213,6 +213,11 @@ function Menu()
 		local num = IsValid(preview.Entity) and preview.Entity:GetNumBodyGroups() or 0
 		local t = {}
 		for k = 0, num - 1 do t[k + 1] = sel.groups[k] or 0 end
+		if player_manager.TranslateToPlayerModelName(sel.model) ~= nil then
+			LocalPlayer():ConCommand("cl_playermodel "..player_manager.TranslateToPlayerModelName(sel.model))
+			LocalPlayer():ConCommand("cl_playerbodygroups "..table.concat(t, " "))
+			LocalPlayer():ConCommand("cl_playerskin "..tostring(math.Clamp(sel.skin, 0, 255)))
+		end
 
 		net.Start("ZC_PMS_Apply")
 			net.WriteString(sel.model)
